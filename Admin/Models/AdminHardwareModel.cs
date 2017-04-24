@@ -17,7 +17,7 @@ namespace Admin.Models
         public string OsVersion { get; set; }
         public string ServicePack { get; set; }
         public string UserName { get; set; }
-        public bool Is64 { get; set; }
+        public string Is64 { get; set; }
         public int TickCount { get; set; }
         public string UserDomain { get; set; }
         public CPU _cpu { get; set; }

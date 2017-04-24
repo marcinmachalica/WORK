@@ -7,11 +7,10 @@ namespace Admin.ViewModels
 {
     public class IndexViewModel
     {
-        enum OSVersionEnum {Windows }
         public string ComputerName { get; set; }
         public string OsVersion { get; set; }
         public string UserName { get; set; }
-        public bool Is64 { get; set; }
+        public string Is64 { get; set; }
         public int TickCount { get; set; }
         public string UserDomain { get; set; }
         public string CpuName { get; set; }

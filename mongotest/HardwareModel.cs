@@ -22,7 +22,7 @@ namespace mongotest
         public string OsVersion { get; set; }
         public string ServicePack { get; set; }
         public string UserName { get; set; }
-        public bool Is64 { get; set; }
+        public string Is64 { get; set; }
         public int TickCount { get; set; }
         public string UserDomain { get; set; }
         public CPU _cpu { get; set; }
@@ -51,7 +51,7 @@ namespace mongotest
                 hw.CreateFirst(hw);
             }
 
-            System.Threading.Thread.Sleep(10000);
+            System.Threading.Thread.Sleep(conf.Refresh);
             Start();
             
         }
@@ -129,7 +129,15 @@ namespace mongotest
             ServicePack = Environment.OSVersion.ServicePack;
             UserDomain = Environment.UserDomainName;
             UserName = Environment.UserName;
-            Is64 = Environment.Is64BitOperatingSystem;
+            if (Environment.Is64BitOperatingSystem)
+            {
+                Is64 = "x64";
+            }
+            else
+            {
+                Is64 = "x86";
+            }
+            //Is64 = Environment.Is64BitOperatingSystem.ToString();
             TickCount = Environment.TickCount / 1000 / 60;
             //OsVersion = Environment.Version.ToString();
             var OStrim = Environment.OSVersion.VersionString.Remove(0, 21);

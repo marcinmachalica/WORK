@@ -7,6 +7,7 @@ using Admin.Models;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using Admin.ViewModels;
 
 namespace Admin.Controllers
 {
@@ -14,18 +15,34 @@ namespace Admin.Controllers
     {
 
 
-        [HttpGet]
+        
         async public Task<ActionResult> Index()
         {
             var _client = new MongoClient();
             var _db = _client.GetDatabase("ComputersStore");
             var coll = _db.GetCollection<AdminHardwareModel>("Computer");
             IEnumerable<AdminHardwareModel> list = await coll.Find(_ => true).ToListAsync();
+            List<IndexViewModel> ViewList = new List<IndexViewModel>();
+            foreach (var item in list)
+            {
+                IndexViewModel VM = new IndexViewModel()
+                {
+                    ComputerName = item.ComputerName,
+                    OsVersion = item.OsVersion,
+                    UserName = item.UserName,
+
+
+                };
+                ViewList.Add(VM);
+
+            }
+
+            
             
             return View(list);
         }
 
-        [HttpPost]
+        
         public ActionResult Index(AdminHardwareModel AdminModel)
         {
             return View(AdminModel);
