@@ -1,0 +1,13 @@
+﻿Instalowanie zestawu 'C:\Users\Marcin\Documents\Visual Studio 2017\Projects\mongotest\mongotest\bin\Debug\mongotest.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   logfile = C:\Users\Marcin\Documents\Visual Studio 2017\Projects\mongotest\mongotest\bin\Debug\mongotest.InstallLog
+   assemblypath = C:\Users\Marcin\Documents\Visual Studio 2017\Projects\mongotest\mongotest\bin\Debug\mongotest.exe
+Nie można znaleźć instalatorów publicznych z atrybutem RunInstallerAttribute.Yes w zestawie C:\Users\Marcin\Documents\Visual Studio 2017\Projects\mongotest\mongotest\bin\Debug\mongotest.exe.
+Zatwierdzanie zestawu 'C:\Users\Marcin\Documents\Visual Studio 2017\Projects\mongotest\mongotest\bin\Debug\mongotest.exe'.
+Uwzględnione parametry to:
+   logtoconsole = 
+   logfile = C:\Users\Marcin\Documents\Visual Studio 2017\Projects\mongotest\mongotest\bin\Debug\mongotest.InstallLog
+   assemblypath = C:\Users\Marcin\Documents\Visual Studio 2017\Projects\mongotest\mongotest\bin\Debug\mongotest.exe
+Nie można znaleźć instalatorów publicznych z atrybutem RunInstallerAttribute.Yes w zestawie C:\Users\Marcin\Documents\Visual Studio 2017\Projects\mongotest\mongotest\bin\Debug\mongotest.exe.
+Usuwanie pliku InstallState z powodu braku instalatorów.
