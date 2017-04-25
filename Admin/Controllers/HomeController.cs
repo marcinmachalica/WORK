@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Admin.ViewModels;
+using mongotest;
 
 namespace Admin.Controllers
 {
@@ -18,41 +19,45 @@ namespace Admin.Controllers
         
         async public Task<ActionResult> Index()
         {
-            var _client = new MongoClient();
-            var _db = _client.GetDatabase("ComputersStore");
-            var coll = _db.GetCollection<AdminHardwareModel>("Computer");
+            Config conf = new Config();
+            var coll = conf.Connect();
             IEnumerable<AdminHardwareModel> list = await coll.Find(_ => true).ToListAsync();
             List<IndexViewModel> ViewList = new List<IndexViewModel>();
             foreach (var item in list)
             {
                 IndexViewModel VM = new IndexViewModel()
                 {
+                    ViewModelId = item._id,
                     ComputerName = item.ComputerName,
                     OsVersion = item.OsVersion,
                     UserName = item.UserName,
-
-
-                };
+                    Is64 = item.Is64,
+                    TickCount = item.TickCount,
+                    UserDomain = item.UserDomain,
+                    CpuName = item._cpu.CPUName,
+                    GpuName = item._gpu.GPUName,
+                    RAMsize = (item._memory.UsedMemory[0] + item._memory.UsedMemory[1]).ToString(),
+                    Mbname = item._mb.MBName,
+                    HDDName = item._hdd.HDName[0],
+                    LastUpdate=item.LastUpdate
+    };
                 ViewList.Add(VM);
 
             }
 
             
             
-            return View(list);
+            return View(ViewList);
         }
 
         
-        public ActionResult Index(AdminHardwareModel AdminModel)
+        async public Task<ActionResult> Details(string id)
         {
-            return View(AdminModel);
-        }
+            Config conf = new Config();
+            var coll=conf.Connect();
+            IEnumerable<AdminHardwareModel> list =await coll.Find(x => x._id == id).ToListAsync();
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            return View(list);
         }
 
         public ActionResult Contact()

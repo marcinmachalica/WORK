@@ -20,6 +20,7 @@ namespace Admin.Models
         public string Is64 { get; set; }
         public int TickCount { get; set; }
         public string UserDomain { get; set; }
+        public DateTime LastUpdate { get; set; }
         public CPU _cpu { get; set; }
         public GPU _gpu { get; set; }
         public Memory _memory { get; set; }

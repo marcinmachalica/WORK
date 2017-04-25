@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mongotest
 {
-    class GPU
+    public class GPU
     {
         public List<string> GPUClocks { get; set; }
         public List<string> GPULoads { get; set; }

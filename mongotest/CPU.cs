@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mongotest
 {
-    class CPU
+    public class CPU
     {
         public string CPUName { get; set; }
         public double BusSpeed { get; set; }

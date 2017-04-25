@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mongotest
 {
-    class HDD
+    public class HDD
     {
         public List<double> HDUsedSpace { get; set; }
         public List<string> HDName { get; set; }

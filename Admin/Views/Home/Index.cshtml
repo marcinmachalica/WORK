@@ -3,25 +3,39 @@
 }
 
 @{
-    var grid = new WebGrid(source: Model,canSort: true,canPage:true);
-    
+    var grid = new WebGrid(source: Model, canSort: true, canPage: true);
+
 }
 <html>
 <head>
     <title>Displaying Data Using the WebGrid Helper</title>
 </head>
 <body>
-    
+
     <h1>Computers</h1>
     <div id="grid">
         @grid.GetHtml(
-         columns: grid.Columns(
-             grid.Column("ComputerName", canSort: true),
-             grid.Column("_cpu.CPUName","Procesor"),
-             grid.Column("_gpu.GPUName","Graphics"),
-             grid.Column("_memory.MemoryLoad","Memory Use"),
-             grid.Column("_hdd.HDName","Hard Disk")
-             ))
+      tableStyle: "table table-hover",
+     columns: grid.Columns(
+         grid.Column("ComputerName", canSort: true),
+         grid.Column("OsVersion", "System"),
+         grid.Column("UserName", "User name"),
+         grid.Column("Is64", "OS version"),
+         grid.Column("TickCount", "Startup time"),
+         grid.Column("UserDomain", "Domain name"),
+         grid.Column("CpuName", "Procesor"),
+         grid.Column("GpuName", "Graphics"),
+         grid.Column("RAMsize", "RAM"),
+         grid.Column("Mbname", "Motherboard"),
+         grid.Column("HDDName", "Hard disk"),
+         grid.Column(header: "Operacje", format:
+        @<text>
+            @Html.ActionLink("Details", "Details", new { Id = item.ViewModelId }) 
+           
+        </text>
+
+
+            )))
     </div>
 </body>
 </html> 

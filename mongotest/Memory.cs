@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mongotest
 {
-    class Memory
+    public class Memory
     {
         public string Name { get; set; }
         public double MemoryLoad { get; set; }

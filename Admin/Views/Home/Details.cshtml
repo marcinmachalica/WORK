@@ -1,12 +1,34 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@{ 
+    @Model;
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-
 <h2>Szczególy stacji roboczej</h2>
 
 <div>
-   
     
+        @foreach (var item in Model)
+        {
+            <h2>General Information</h2>
+            <ul>
+                <li><span>Computer name</span> <span>@item.ComputerName</span></li>
+                <li><span>Operating System</span> <span>@item.OsVersion</span></li>
+                <li><span>Service Pack</span> <span>@item.ServicePack</span></li>
+                <li><span>User name</span> <span>@item.UserName</span></li>
+                <li><span>Architecture</span> <span>@item.Is64</span></li>
+                <li><span>Startup time</span> <span>@item.TickCount</span></li>
+                <li><span>Domain</span> <span>@item.UserDomain</span></li>
+            </ul>
+
+            <h2>CPU unit</h2>
+            <ul>
+                <li>Procesor @item._cpu.CPUName</li>
+                <li>Bus Speed @item._cpu.BusSpeed</li>
+                    @*@foreach (var cpu in @item._cpu)
+                    {
+                        <li></li>
+                    }*@
+                
+
+            </ul>
+        }
+            
 </div>

@@ -18,7 +18,7 @@ namespace Admin
 
             routes.MapRoute(
                             name: "Details",
-                            url: "{controller}/{action}/{AdminModel}",
+                            url: "{controller}/{action}/{Id}",
                             defaults: new { controller = "Home", action = "Details" }
                             );
 

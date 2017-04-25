@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mongotest
 {
-    class Motherboard
+    public class Motherboard
     {
         public string MBName { get; set; }
     }

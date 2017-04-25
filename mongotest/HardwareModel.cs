@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 namespace mongotest
 {
 
-    class HardwareModel
+    public class HardwareModel
     {
         public string _id { get; set; }
         public string ComputerName { get; set; }
@@ -24,6 +24,7 @@ namespace mongotest
         public string UserName { get; set; }
         public string Is64 { get; set; }
         public int TickCount { get; set; }
+        public DateTime LastUpdate { get; set; }    
         public string UserDomain { get; set; }
         public CPU _cpu { get; set; }
         public GPU _gpu { get; set; }
@@ -34,26 +35,27 @@ namespace mongotest
 
         public void Start()
         {
-            XmlSerializer sr = new XmlSerializer(typeof(Config));
-            TextReader tw = new StreamReader("C:\\\\ATHService\\config.xml");
-            
-            Config conf = (Config)sr.Deserialize(tw);
-            tw.Close();
-
-            if (conf.Exist == true)
+            if (File.Exists("C:\\\\ATHService\\config.xml"))
             {
+                XmlSerializer sr = new XmlSerializer(typeof(Config));
+
+                TextReader tw = new StreamReader("C:\\\\ATHService\\config.xml");
+                Config conf = (Config)sr.Deserialize(tw);
+                tw.Close();
                 var hw = new HardwareModel();
                 hw.ReplaceDocument(hw, conf._idconf);
+                System.Threading.Thread.Sleep(conf.Refresh);
+                Start();
             }
             else
             {
                 var hw = new HardwareModel();
                 hw.CreateFirst(hw);
+                Start();
             }
 
-            System.Threading.Thread.Sleep(conf.Refresh);
-            Start();
-            
+
+
         }
 
         public void Stop()
@@ -63,11 +65,23 @@ namespace mongotest
 
         public void CreateFirst(HardwareModel hw)
         {
-            Config conf = new Config();
+            Config config = new Config()
+            {
+                _idconf = hw._id,
+                Exist = true,
+                MongoIP = "192.168.1.54",
+                Database = "ComputersStore",
+                Collection = "Computer",
+                Refresh = 10000
+            };
+            XmlSerializer sr = new XmlSerializer(typeof(Config));
+            TextWriter tw = new StreamWriter("C:\\\\ATHService\\config.xml");
+            sr.Serialize(tw, config);
+            tw.Close();
 
-            var _client = new MongoClient();
-            var _db = _client.GetDatabase("ComputersStore");
-            var coll = _db.GetCollection<HardwareModel>("Computer");
+
+            
+            var coll = config.Connect();
 
             hw.ToBsonDocument();
 
@@ -79,22 +93,16 @@ namespace mongotest
             var filter = Builders<HardwareModel>.Filter.Eq("_id", hw._id);
             coll.InsertOne(hw);
 
-            conf._idconf = hw._id;
-            conf.Exist = true;
-            XmlSerializer sr = new XmlSerializer(typeof(Config));
-            TextWriter tw = new StreamWriter("C:\\\\ATHService\\config.xml");
-            sr.Serialize(tw, conf);
-            tw.Close();
             
+
 
         }
 
 
         async public void ReplaceDocument(HardwareModel hw, string tmpid)
         {
-            var _client = new MongoClient();
-            var _db = _client.GetDatabase("ComputersStore");
-            var coll = _db.GetCollection<HardwareModel>("Computer");
+            Config conf = new Config();
+            var coll = conf.Connect();
             hw.ToBsonDocument();
             if (!BsonClassMap.IsClassMapRegistered(typeof(HardwareModel)))
             {
@@ -105,7 +113,7 @@ namespace mongotest
             var filter = Builders<HardwareModel>.Filter.Eq(s => s._id, tmpid);
             await coll.DeleteOneAsync(filter);
             await coll.InsertOneAsync(hw);
-            
+
         }
 
 
@@ -129,6 +137,7 @@ namespace mongotest
             ServicePack = Environment.OSVersion.ServicePack;
             UserDomain = Environment.UserDomainName;
             UserName = Environment.UserName;
+            LastUpdate = System.DateTime.Now;
             if (Environment.Is64BitOperatingSystem)
             {
                 Is64 = "x64";
@@ -172,7 +181,7 @@ namespace mongotest
             }
 
 
-            
+
             _gpu = new GPU()
             {
                 GPUClocks = new List<string>(),
@@ -390,7 +399,7 @@ namespace mongotest
 
 
             }
-            
+
         }
 
 

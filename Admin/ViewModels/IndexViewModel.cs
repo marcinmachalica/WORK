@@ -7,6 +7,7 @@ namespace Admin.ViewModels
 {
     public class IndexViewModel
     {
+        public string ViewModelId { get; set; }
         public string ComputerName { get; set; }
         public string OsVersion { get; set; }
         public string UserName { get; set; }
@@ -18,5 +19,6 @@ namespace Admin.ViewModels
         public string RAMsize { get; set; }
         public string Mbname { get; set; }
         public string HDDName { get; set; }
+        public DateTime LastUpdate { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Admin.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace mongotest
         public string Collection { get; set; }
         public int Refresh { get; set; }
 
-        public IMongoCollection<HardwareModel> Connect()
+        public IMongoCollection<AdminHardwareModel> Connect()
         {
             var conf = new Config();
             XmlSerializer sr = new XmlSerializer(typeof(Config));
@@ -27,9 +28,9 @@ namespace mongotest
 
             conf = (Config)sr.Deserialize(tw);
             tw.Close();
-            var _client = new MongoClient("mongodb://" + conf.MongoIP + ":27017");
+            var _client = new MongoClient("mongodb://"+conf.MongoIP+":27017");
             var _db = _client.GetDatabase(conf.Database);
-            var coll = _db.GetCollection<HardwareModel>(conf.Collection);
+            var coll = _db.GetCollection<AdminHardwareModel>(conf.Collection);
             return coll;
         }
     }
