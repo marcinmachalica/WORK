@@ -55,7 +55,7 @@ namespace Admin.Controllers
         {
             Config conf = new Config();
             var coll=conf.Connect();
-            IEnumerable<AdminHardwareModel> list =await coll.Find(x => x._id == id).ToListAsync();
+            AdminHardwareModel list =await coll.Find(_ => _._id == id).SingleAsync();
 
             return View(list);
         }

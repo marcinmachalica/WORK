@@ -24,7 +24,7 @@ namespace mongotest
         public string UserName { get; set; }
         public string Is64 { get; set; }
         public int TickCount { get; set; }
-        public DateTime LastUpdate { get; set; }    
+        public string LastUpdate { get; set; }
         public string UserDomain { get; set; }
         public CPU _cpu { get; set; }
         public GPU _gpu { get; set; }
@@ -80,7 +80,7 @@ namespace mongotest
             tw.Close();
 
 
-            
+
             var coll = config.Connect();
 
             hw.ToBsonDocument();
@@ -93,7 +93,7 @@ namespace mongotest
             var filter = Builders<HardwareModel>.Filter.Eq("_id", hw._id);
             coll.InsertOne(hw);
 
-            
+
 
 
         }
@@ -137,7 +137,7 @@ namespace mongotest
             ServicePack = Environment.OSVersion.ServicePack;
             UserDomain = Environment.UserDomainName;
             UserName = Environment.UserName;
-            LastUpdate = System.DateTime.Now;
+            LastUpdate = System.DateTime.Now.ToString();
             if (Environment.Is64BitOperatingSystem)
             {
                 Is64 = "x64";
@@ -218,54 +218,87 @@ namespace mongotest
                         _cpu.CPUName = item.Name;
                         if (sensor.SensorType == SensorType.Clock)
                         {
-                            round = Math.Round(Double.Parse(sensor.Value.ToString()));
-                            _cpu.CPUCoreClock.Add(round);
+                            if (sensor.Value != null)
+                            {
+                                round = Math.Round(Double.Parse(sensor.Value.ToString()));
+                                _cpu.CPUCoreClock.Add(round);
+                            }
                             //_cpu.BusSpeed += string.Format("{0} {1}\n", sensor.Name, sensor.Value.ToString());
                         }
                         if (sensor.SensorType == SensorType.Temperature)
                         {
-                            round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
-                            _cpu.CPUCoreTemp.Add(round);
+                            if (sensor.Value != null)
+                            {
+                                round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
+                                _cpu.CPUCoreTemp.Add(round);
+                            }
                         }
 
                         if (sensor.SensorType == SensorType.Load)
                         {
-                            round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
-                            _cpu.CPUCoreLoad.Add(round);
+                            if (sensor.Value != null)
+                            {
+                                round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
+                                _cpu.CPUCoreLoad.Add(round);
+                            }
                         }
                         if (sensor.SensorType == SensorType.Power)
                         {
-                            round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
-                            _cpu.CPUPowers.Add(round.ToString());
+                            if (sensor.Value != null)
+                            {
+                                round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
+                                _cpu.CPUPowers.Add(round.ToString());
+                            }
 
                         }
                         if (sensor.SensorType == SensorType.Level)
                         {
-                            _cpu.Other.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _cpu.Other.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Control)
                         {
-                            _cpu.Other.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _cpu.Other.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Factor)
                         {
-                            _cpu.Other.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _cpu.Other.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Data)
                         {
-                            _cpu.Other.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _cpu.Other.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Fan)
                         {
-                            _cpu.Other.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _cpu.Other.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Flow)
                         {
-                            _cpu.Other.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _cpu.Other.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Voltage)
                         {
-                            _cpu.Other.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _cpu.Other.Add(sensor.Value.ToString());
+                            }
                         }
                     }
                     _cpu.BusSpeed = _cpu.CPUCoreClock.Last();
@@ -292,19 +325,31 @@ namespace mongotest
                         _gpu.GPUName = item.Name;
                         if (sensor.SensorType == SensorType.Clock)
                         {
-                            _gpu.GPUClocks.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _gpu.GPUClocks.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Load)
                         {
-                            _gpu.GPULoads.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _gpu.GPULoads.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Temperature)
                         {
-                            _gpu.GPUCoreTemp = sensor.Value.ToString();
+                            if (sensor.Value != null)
+                            {
+                                _gpu.GPUCoreTemp = sensor.Value.ToString();
+                            }
                         }
                         if (sensor.SensorType == SensorType.Data)
                         {
-                            _gpu.GPUData.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _gpu.GPUData.Add(sensor.Value.ToString());
+                            }
                         }
                     }
 
@@ -321,19 +366,33 @@ namespace mongotest
                         _gpu.GPUName = item.Name;
                         if (sensor.SensorType == SensorType.Clock)
                         {
-                            _gpu.GPUClocks.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _gpu.GPUClocks.Add(sensor.Value.ToString());
+                            }
                         }
                         if (sensor.SensorType == SensorType.Load)
                         {
-                            _gpu.GPULoads.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _gpu.GPULoads.Add(sensor.Value.ToString());
+                            }
                         }
+
                         if (sensor.SensorType == SensorType.Temperature)
                         {
-                            _gpu.GPUCoreTemp = sensor.Value.ToString();
+                            if (sensor.Value != null)
+                            {
+
+                                _gpu.GPUCoreTemp = sensor.Value.ToString();
+                            }
                         }
                         if (sensor.SensorType == SensorType.Data)
                         {
-                            _gpu.GPUData.Add(sensor.Value.ToString());
+                            if (sensor.Value != null)
+                            {
+                                _gpu.GPUData.Add(sensor.Value.ToString());
+                            }
                         }
                     }
 
@@ -350,13 +409,19 @@ namespace mongotest
                     {
                         if (sensor.SensorType == SensorType.Temperature)
                         {
-                            round = Math.Round(Double.Parse(sensor.Value.ToString()));
-                            _memory.MemoryLoad = round;
+                            if (sensor.Value != null)
+                            {
+                                round = Math.Round(Double.Parse(sensor.Value.ToString()));
+                                _memory.MemoryLoad = round;
+                            }
                         }
                         if (sensor.SensorType == SensorType.Data)
                         {
-                            round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
-                            _memory.UsedMemory.Add(round);
+                            if (sensor.Value != null)
+                            {
+                                round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
+                                _memory.UsedMemory.Add(round);
+                            }
                         }
 
                     }
@@ -375,13 +440,19 @@ namespace mongotest
 
                         if (sensor.SensorType == SensorType.Temperature)
                         {
-                            round = Math.Round(Double.Parse(sensor.Value.ToString()));
-                            _hdd.HDTemp.Add(round);
+                            if (sensor.Value != null)
+                            {
+                                round = Math.Round(Double.Parse(sensor.Value.ToString()));
+                                _hdd.HDTemp.Add(round);
+                            }
                         }
                         if (sensor.SensorType == SensorType.Load)
                         {
-                            round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
-                            _hdd.HDUsedSpace.Add(round);
+                            if (sensor.Value != null)
+                            {
+                                round = Math.Round(Double.Parse(sensor.Value.ToString()), 1);
+                                _hdd.HDUsedSpace.Add(round);
+                            }
                         }
 
                     }
@@ -393,6 +464,7 @@ namespace mongotest
                     {
                         subHardware.Update();
                         _mb.MBName = subHardware.Name;
+
                     }
 
                 }
