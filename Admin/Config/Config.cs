@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace mongotest
+namespace Admin
 {
     public class Config
     {

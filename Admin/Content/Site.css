@@ -22,3 +22,37 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.table {
+    background-color: #fff;
+}
+
+.itemContener {
+    font-size: 14px;
+}
+
+    .itemContener > h4 {
+        font-size: 20px;
+        font-weight: 900;
+        font-family: Calibri;
+    }
+
+.table > tbody > tr {
+    border-top: solid 1px #000;
+    border-bottom: solid 1px #000;
+}
+
+    .table > tbody > tr:hover {
+        background-color: #61abe4;
+    }
+
+.navbar-nav > li {
+    height: 100%;
+}
+
+.navbar-right{
+    text-align:right;
+    vertical-align:central;
+    color:#fff;
+ 
+}

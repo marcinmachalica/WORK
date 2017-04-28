@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Admin.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,6 +20,10 @@ namespace Admin.ViewModels
         public string RAMsize { get; set; }
         public string Mbname { get; set; }
         public string HDDName { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public string LastUpdate { get; set; }
+
+        
     }
+
+
 }

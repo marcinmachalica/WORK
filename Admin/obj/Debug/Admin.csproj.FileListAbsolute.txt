@@ -82,4 +82,3 @@ C:\Users\Marcin\documents\visual studio 2017\Projects\mongotest\Admin\bin\pl\Sys
 C:\Users\Marcin\documents\visual studio 2017\Projects\mongotest\Admin\obj\Debug\Admin.csprojResolveAssemblyReference.cache
 C:\Users\Marcin\documents\visual studio 2017\Projects\mongotest\Admin\obj\Debug\Admin.dll
 C:\Users\Marcin\documents\visual studio 2017\Projects\mongotest\Admin\obj\Debug\Admin.pdb
-C:\Users\Marcin\documents\visual studio 2017\Projects\mongotest\Admin\bin\RouteDebugger.dll

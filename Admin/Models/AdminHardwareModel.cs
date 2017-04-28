@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using mongotest;
 using OpenHardwareMonitor.Hardware;
 using System;
 using System.Collections.Generic;
@@ -20,25 +19,25 @@ namespace Admin.Models
         public string Is64 { get; set; }
         public int TickCount { get; set; }
         public string UserDomain { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public string LastUpdate { get; set; }
         public CPU _cpu { get; set; }
         public GPU _gpu { get; set; }
         public Memory _memory { get; set; }
         public Motherboard _mb { get; set; }
         public HDD _hdd { get; set; }
 
-        async public Task<List<AdminHardwareModel>> ReadMongoBase()
-        {
-            
+        //async public Task<List<AdminHardwareModel>> ReadMongoBase()
+        //{
 
-            var _client = new MongoClient();
-            var _db = _client.GetDatabase("ComputersStore");
-            var coll = _db.GetCollection<AdminHardwareModel>("Computer");
 
-            
-            return await coll.Find(_ => true).ToListAsync();
+        //    var _client = new MongoClient();
+        //    var _db = _client.GetDatabase("ComputersStore");
+        //    var coll = _db.GetCollection<AdminHardwareModel>("Computer");
 
-            
-        }
+
+        //    return await coll.Find(_ => true).ToListAsync();
+
+
+        //}
     }
 }

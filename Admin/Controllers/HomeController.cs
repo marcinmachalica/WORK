@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Admin.ViewModels;
-using mongotest;
 
 namespace Admin.Controllers
 {
@@ -56,8 +55,9 @@ namespace Admin.Controllers
             Config conf = new Config();
             var coll=conf.Connect();
             AdminHardwareModel list =await coll.Find(_ => _._id == id).SingleAsync();
+            var model = new DetailsViewModel(list);
 
-            return View(list);
+            return View(model);
         }
 
         public ActionResult Contact()
