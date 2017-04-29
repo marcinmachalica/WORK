@@ -75,6 +75,7 @@ namespace mongotest
                 Refresh = 10000
             };
             XmlSerializer sr = new XmlSerializer(typeof(Config));
+            Directory.CreateDirectory("C:\\\\ATHService");
             TextWriter tw = new StreamWriter("C:\\\\ATHService\\config.xml");
             sr.Serialize(tw, config);
             tw.Close();
@@ -460,12 +461,13 @@ namespace mongotest
                 if (item.HardwareType == HardwareType.Mainboard)
                 {
                     item.Update();
-                    foreach (var subHardware in item.SubHardware)
-                    {
-                        subHardware.Update();
-                        _mb.MBName = subHardware.Name;
+                    _mb.MBName = item.Name;
+                    //foreach (var subHardware in item.SubHardware)
+                    //{
+                    //    subHardware.Update();
+                    //    _mb.MBName = subHardware.Name;
 
-                    }
+                    //}
 
                 }
 

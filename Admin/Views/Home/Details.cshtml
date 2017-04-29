@@ -3,12 +3,20 @@
     @model Admin.ViewModels.DetailsViewModel
 }
 
-<h2>Workstation Details</h2>
 
-<div>
+<h2>Workstation Details</h2>
+@*@Ajax.ActionLink("ShowDetails", "Details",
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "dataView",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "waitimage"
+    })*@
+<div id="dataView">
 
     <div class="itemContener">
-       <h4>General overview</h4> 
+        <h4>General overview</h4>
         <table>
             <tr>
                 <td>Computer name</td>
@@ -160,24 +168,24 @@
     <div class="itemContener">
         <h4>Motherboard</h4>
         <table>
-            
+
             <tr>
                 <td>Motherboard Name</td>
                 <td> @Model.Mb.MBName</td>
             </tr>
         </table>
     </div>
-    <div class="itemContener">
+    <div>
         <h4>Hard disk</h4>
         <table>
-            
+
             <tr>
                 <td>Disk Name</td>
                 <td> @Model.Hdd.HDName[0]</td>
                 <td>Disk Temperature</td>
-                <td class="TempMonitor"> @Model.Hdd.HDTemp[0]</td>
+                <td class="TempMonitor"> @(@Model.Hdd.HDTemp != null ? @Model.Hdd.HDTemp[0] : 0.0)</td>
                 <td>Disk use</td>
-                <td class="LoadMonitor"> @Model.Hdd.HDUsedSpace[0] %</td>
+                <td> @Model.Hdd.HDUsedSpace[0] %</td>
                 <td>@(@Model.Hdd.HDName.Capacity > 1 ? "Second disk name" : "")</td>
                 <td>@(@Model.Hdd.HDName.Capacity > 1 ? @Model.Hdd.HDName[1] : "")</td>
             </tr>
@@ -186,3 +194,25 @@
 
     </div>
 </div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/Scripts/jqueryScript.js")
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var timer = setInterval(ajax, 5000);
+
+        function ajax() {
+
+            $.ajax({
+                url: "@Url.Action("Details","Home")",
+                type: 'POST',
+                dataType: 'html',
+                cache: false,
+                //success: function (html) {
+
+                //}
+            }).done(function (partialViewResult) { $("#dataView").html(partialViewResult) });
+        }
+    });
+</script>

@@ -53,12 +53,15 @@ namespace Admin.Controllers
         async public Task<ActionResult> Details(string id)
         {
             Config conf = new Config();
-            var coll=conf.Connect();
-            AdminHardwareModel list =await coll.Find(_ => _._id == id).SingleAsync();
+            var coll = conf.Connect();
+            AdminHardwareModel list = await coll.Find(_ => _._id == id).SingleAsync();
             var model = new DetailsViewModel(list);
 
-            return View(model);
+            return PartialView("Details", model);
         }
+
+        
+
 
         public ActionResult Contact()
         {

@@ -25,6 +25,7 @@ textarea {
 
 .table {
     background-color: #fff;
+    box-shadow:5px;
 }
 
 .itemContener {
