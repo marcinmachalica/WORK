@@ -1,4 +1,4 @@
-﻿body {
+﻿/*body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -17,7 +17,7 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
@@ -32,20 +32,20 @@ textarea {
     font-size: 14px;
 }
 
-    .itemContener > h4 {
-        font-size: 20px;
-        font-weight: 900;
-        font-family: Calibri;
-    }
+.itemContener > h4 {
+    font-size: 20px;
+    font-weight: 900;
+    font-family: Calibri;
+}
 
 .table > tbody > tr {
     border-top: solid 1px #000;
     border-bottom: solid 1px #000;
 }
 
-    .table > tbody > tr:hover {
+.table > tbody > tr:hover {
         background-color: #61abe4;
-    }
+}
 
 .navbar-nav > li {
     height: 100%;
@@ -56,4 +56,17 @@ textarea {
     vertical-align:central;
     color:#fff;
  
+}*/
+
+.table tr{
+    border-bottom:1px solid #ddd;
+    border-top:1px solid #ddd;
 }
+
+.table tr > td :hover {
+    background-color:#ff0000;
+}
+
+.table-hover > tbody > tr:active:hover{
+    background-color:#000000;
+}    

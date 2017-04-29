@@ -57,10 +57,19 @@ namespace Admin.Controllers
             AdminHardwareModel list = await coll.Find(_ => _._id == id).SingleAsync();
             var model = new DetailsViewModel(list);
 
-            return PartialView("Details", model);
+            return View("Details", model);
         }
 
-        
+        async public Task<ActionResult> AjaxDetails(string id)
+        {
+            Config conf = new Config();
+            var coll = conf.Connect();
+            AdminHardwareModel list = await coll.Find(_ => _._id == id).SingleAsync();
+            var model = new DetailsViewModel(list);
+
+            return PartialView("_AjaxDetails", model);
+        }
+
 
 
         public ActionResult Contact()

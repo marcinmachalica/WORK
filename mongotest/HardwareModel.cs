@@ -92,7 +92,12 @@ namespace mongotest
                     cm => { cm.AutoMap(); });
             }
             var filter = Builders<HardwareModel>.Filter.Eq("_id", hw._id);
-            coll.InsertOne(hw);
+            try
+            {
+                coll.InsertOne(hw);
+            }
+            catch{ Start(); };
+
 
 
 
@@ -113,7 +118,11 @@ namespace mongotest
             hw._id = tmpid;
             var filter = Builders<HardwareModel>.Filter.Eq(s => s._id, tmpid);
             await coll.DeleteOneAsync(filter);
-            await coll.InsertOneAsync(hw);
+            try
+            {
+                await coll.InsertOneAsync(hw);
+            }
+            catch { Start(); };
 
         }
 
@@ -133,7 +142,7 @@ namespace mongotest
             OpenHW.Open();
 
             var tmp = OpenHW.GetReport();
-            _id = Environment.MachineName.ToString() + Environment.TickCount.ToString();
+            _id = Environment.MachineName.ToString() + Environment.TickCount.ToString()+Environment.UserDomainName;
             ComputerName = Environment.MachineName;
             ServicePack = Environment.OSVersion.ServicePack;
             UserDomain = Environment.UserDomainName;

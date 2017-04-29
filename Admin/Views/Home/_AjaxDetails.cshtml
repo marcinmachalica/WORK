@@ -1,0 +1,183 @@
+﻿@{
+    var counter = 0;
+    @model Admin.ViewModels.DetailsViewModel
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<h2>Workstation Details</h2>
+<div class="itemContener">
+    <h4>General overview</h4>
+    <table class="table table-hover">
+        <tr>
+            <td>Computer name</td>
+            <td>@Model.ComputerName</td>
+        </tr>
+        <tr>
+            <td>User name</td>
+            <td>@Model.UserName</td>
+        </tr>
+        <tr>
+            <td>Domain name</td>
+            <td>@Model.UserDomain</td>
+        </tr>
+        <tr>
+            <td>System version</td>
+            <td>@Model.OsVersion</td>
+        </tr>
+        <tr>
+            <td>Architecture</td>
+            <td>@Model.Is64</td>
+        </tr>
+        <tr>
+            <td>Service Pack</td>
+            <td>@Model.ServicePack</td>
+        </tr>
+        <tr>
+            <td>Startup time</td>
+            <td>@Model.TickCount</td>
+        </tr>
+        <tr>
+            <td>Domain name</td>
+            <td>@Model.UserDomain</td>
+        </tr>
+        <tr>
+            <td>Last Update</td>
+            <td>@Model.LastUpdate</td>
+        </tr>
+    </table>
+
+</div>
+<div class="itemContener">
+    <h4>CPU</h4>
+    <table class="table table-hover">
+        <tr>
+            <td>Procesor name</td>
+            <td>@Model.Cpu.CPUName</td>
+            <td>Bus speed</td>
+            <td>@Model.Cpu.BusSpeed MHz</td>
+            <td>Total load</td>
+            <td class="LoadMonitor">@Model.Cpu.CPUTotalLoad</td>
+        </tr>
+        <tr>
+            @{
+                counter = 0;
+                foreach (var item in Model.Cpu.CPUCoreClock)
+                {
+                    counter++;
+                    <td>Clock Core #@counter</td>
+                        <td>@item MHz</td>
+                }
+            }
+        </tr>
+        <tr>
+            @{
+                counter = 0;
+                foreach (var item in Model.Cpu.CPUCoreLoad)
+                {
+                    counter++;
+                    <td>Load Core #@counter</td>
+                        <td class="LoadMonitor">@item %</td>
+                }
+            }
+        </tr>
+        <tr>
+            @{
+                counter = 0;
+                foreach (var item in Model.Cpu.CPUCoreTemp)
+                {
+                    counter++;
+                    <td>Temperature Core #@counter</td>
+                        <td class="TempMonitor">@item °C</td>
+                }
+            }
+        </tr>
+    </table>
+</div>
+
+<div class="itemContener">
+    <h4>GPU</h4>
+    <table class="table table-hover">
+        <tr>
+            <td>Graphics name</td>
+            <td>@Model.Gpu.GPUName</td>
+            <td>Core temperature</td>
+            <td class="TempMonitor">@Model.Gpu.GPUCoreTemp °C</td>
+            <td>Graphic Core</td>
+            <td>@Model.Gpu.GPUCore</td>
+        </tr>
+        <tr>
+            @{
+                counter = 0;
+                foreach (var item in Model.Gpu.GPUClocks)
+                {
+                    counter++;
+                    <td>Core #@counter Clock</td>
+                        <td>@item  Mhz</td>
+                }
+            }
+        </tr>
+        <tr>
+            @{
+                counter = 0;
+                foreach (var item in Model.Gpu.GPULoads)
+                {
+                    counter++;
+                    <td>Core #@counter Load</td>
+                        <td class="LoadMonitor">@item  %</td>
+                }
+            }
+        </tr>
+    </table>
+</div>
+
+
+<div class="itemContener">
+    <h4>Memory</h4>
+    <table class="table table-hover">
+        <tr>
+            <td>Memory Name</td>
+            <td> @(@Model.Memory.Name != null ? @Model.Memory.Name : "No data")</td>
+        </tr>
+        <tr>
+            <td>Memory installed</td>
+            <td>@(@Model.Memory.UsedMemory[0] + @Model.Memory.UsedMemory[1]) GB</td>
+        </tr>
+        <tr>
+            <td>Used memory</td>
+            <td class="LoadMonitor">@(Math.Round(@Model.Memory.UsedMemory[0] * 100 / (@Model.Memory.UsedMemory[0] + @Model.Memory.UsedMemory[1]), 2)) %</td>
+        </tr>
+    </table>
+</div>
+
+<div class="itemContener">
+    <h4>Motherboard</h4>
+    <table class="table table-hover">
+
+        <tr>
+            <td>Motherboard Name</td>
+            <td> @Model.Mb.MBName</td>
+        </tr>
+    </table>
+</div>
+<div class="itemContener">
+    <h4>Hard disk</h4>
+    <table class="table table-hover">
+
+        <tr>
+            <td>Disk Name</td>
+            <td> @Model.Hdd.HDName[0]</td>
+            <td>Disk Temperature</td>
+            <td class="TempMonitor"> @(@Model.Hdd.HDTemp != null ? @Model.Hdd.HDTemp[0] : 0.0)</td>
+            <td>Disk use</td>
+            <td> @Model.Hdd.HDUsedSpace[0] %</td>
+            <td>@(@Model.Hdd.HDName.Capacity > 1 ? "Second disk name" : "")</td>
+            <td>@(@Model.Hdd.HDName.Capacity > 1 ? @Model.Hdd.HDName[1] : "")</td>
+        </tr>
+    </table>
+
+
+</div>
+
+
+

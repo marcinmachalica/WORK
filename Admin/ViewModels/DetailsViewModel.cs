@@ -8,6 +8,7 @@ namespace Admin.ViewModels
 {
     public class DetailsViewModel
     {
+        public string Id { get; set; }
         public string ComputerName { get; set; }
         public string UserName { get; set; }
         public string OsVersion { get; set; }
@@ -31,15 +32,15 @@ namespace Admin.ViewModels
             Memory = new Memory();
             Mb = new Motherboard();
             Hdd = new HDD();
-            
-            
-            ComputerName= adm.ComputerName;
-            UserName=    adm.UserName;
-            OsVersion=    adm.OsVersion;
-            Is64=    adm.Is64;
-            ServicePack=    adm.ServicePack;
-            UserDomain=    adm.UserDomain;
-            LastUpdate=    adm.LastUpdate;
+
+            Id = adm._id;
+            ComputerName = adm.ComputerName;
+            UserName = adm.UserName;
+            OsVersion = adm.OsVersion;
+            Is64 = adm.Is64;
+            ServicePack = adm.ServicePack;
+            UserDomain = adm.UserDomain;
+            LastUpdate = adm.LastUpdate;
             TickCount = adm.TickCount;
             Cpu.BusSpeed = adm._cpu.BusSpeed;
             Cpu.CPUCoreClock = adm._cpu.CPUCoreClock;
