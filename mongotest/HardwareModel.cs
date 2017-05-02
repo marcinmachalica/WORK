@@ -17,7 +17,6 @@ namespace mongotest
 
     public class HardwareModel
     {
-        public string _id { get; set; }
         public string ComputerName { get; set; }
         public string OsVersion { get; set; }
         public string ServicePack { get; set; }
@@ -31,100 +30,12 @@ namespace mongotest
         public Memory _memory { get; set; }
         public Motherboard _mb { get; set; }
         public HDD _hdd { get; set; }
+        
 
 
-        public void Start()
-        {
-            if (File.Exists("C:\\\\ATHService\\config.xml"))
-            {
-                XmlSerializer sr = new XmlSerializer(typeof(Config));
-
-                TextReader tw = new StreamReader("C:\\\\ATHService\\config.xml");
-                Config conf = (Config)sr.Deserialize(tw);
-                tw.Close();
-                var hw = new HardwareModel();
-                hw.ReplaceDocument(hw, conf._idconf);
-                System.Threading.Thread.Sleep(conf.Refresh);
-                Start();
-            }
-            else
-            {
-                var hw = new HardwareModel();
-                hw.CreateFirst(hw);
-                Start();
-            }
+        
 
 
-
-        }
-
-        public void Stop()
-        {
-
-        }
-
-        public void CreateFirst(HardwareModel hw)
-        {
-            Config config = new Config()
-            {
-                _idconf = hw._id,
-                Exist = true,
-                MongoIP = "192.168.1.54",
-                Database = "ComputersStore",
-                Collection = "Computer",
-                Refresh = 10000
-            };
-            XmlSerializer sr = new XmlSerializer(typeof(Config));
-            Directory.CreateDirectory("C:\\\\ATHService");
-            TextWriter tw = new StreamWriter("C:\\\\ATHService\\config.xml");
-            sr.Serialize(tw, config);
-            tw.Close();
-
-
-
-            var coll = config.Connect();
-
-            hw.ToBsonDocument();
-
-            if (!BsonClassMap.IsClassMapRegistered(typeof(HardwareModel)))
-            {
-                BsonClassMap.RegisterClassMap<HardwareModel>(
-                    cm => { cm.AutoMap(); });
-            }
-            var filter = Builders<HardwareModel>.Filter.Eq("_id", hw._id);
-            try
-            {
-                coll.InsertOne(hw);
-            }
-            catch{ Start(); };
-
-
-
-
-
-        }
-
-
-        async public void ReplaceDocument(HardwareModel hw, string tmpid)
-        {
-            Config conf = new Config();
-            var coll = conf.Connect();
-            hw.ToBsonDocument();
-            if (!BsonClassMap.IsClassMapRegistered(typeof(HardwareModel)))
-            {
-                BsonClassMap.RegisterClassMap<HardwareModel>(
-                    cm => { cm.AutoMap(); });
-            }
-            hw._id = tmpid;
-            var filter = Builders<HardwareModel>.Filter.Eq(s => s._id, tmpid);
-            await coll.DeleteOneAsync(filter);
-            try
-            {
-                await coll.InsertOneAsync(hw);
-            }
-            catch { Start(); };
-
-        }
 
 
         public HardwareModel()
@@ -142,7 +53,7 @@ namespace mongotest
             OpenHW.Open();
 
             var tmp = OpenHW.GetReport();
-            _id = Environment.MachineName.ToString() + Environment.TickCount.ToString()+Environment.UserDomainName;
+            
             ComputerName = Environment.MachineName;
             ServicePack = Environment.OSVersion.ServicePack;
             UserDomain = Environment.UserDomainName;
@@ -213,6 +124,7 @@ namespace mongotest
             _hdd.HDName = new List<string>();
             _hdd.HDTemp = new List<double>();
             _hdd.HDUsedSpace = new List<double>();
+            
             double round;
             foreach (var item in OpenHW.Hardware)
             {

@@ -21,9 +21,9 @@ namespace mongotest
         {
             HostFactory.Run(x =>
             {
-                x.Service<HardwareModel>(service =>
+                x.Service<Model>(service =>
                 {
-                    service.ConstructUsing(srv => new HardwareModel());
+                    service.ConstructUsing(srv => new Model());
                     service.WhenStarted(tc => tc.Start());
                     service.WhenStopped(tc => tc.Stop());
                     

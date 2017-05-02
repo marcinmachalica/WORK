@@ -38,3 +38,4 @@ C:\Users\Marcin\Documents\Visual Studio 2017\Projects\ATHAdmin\mongotest\obj\Deb
 C:\Users\Marcin\Documents\Visual Studio 2017\Projects\ATHAdmin\mongotest\obj\Debug\mongotest.exe
 C:\Users\Marcin\Documents\Visual Studio 2017\Projects\ATHAdmin\mongotest\obj\Debug\mongotest.pdb
 C:\Users\Marcin\Documents\Visual Studio 2017\Projects\ATHAdmin\mongotest\bin\Debug\mongotest.pdb
+C:\Users\Marcin\Documents\Visual Studio 2017\Projects\ATHAdmin\mongotest\bin\Debug\System.Management.Automation.dll

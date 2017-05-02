@@ -19,7 +19,7 @@ namespace mongotest
         public string Collection { get; set; }
         public int Refresh { get; set; }
 
-        public IMongoCollection<HardwareModel> Connect()
+        public IMongoCollection<Model> Connect()
         {
             var conf = new Config();
             XmlSerializer sr = new XmlSerializer(typeof(Config));
@@ -29,7 +29,7 @@ namespace mongotest
             tw.Close();
             var _client = new MongoClient("mongodb://" + conf.MongoIP + ":27017");
             var _db = _client.GetDatabase(conf.Database);
-            var coll = _db.GetCollection<HardwareModel>(conf.Collection);
+            var coll = _db.GetCollection<Model>(conf.Collection);
             return coll;
         }
     }
