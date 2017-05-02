@@ -58,7 +58,7 @@ namespace mongotest
 
                         Proces Proc = new Proces()
                         {
-                            ProcesId = values[1],
+                            ProcesId = Int32.Parse(values[1]),
                             ProcesName = values[0]
                         };
                         Processes.Add(Proc);
@@ -90,7 +90,7 @@ namespace mongotest
             {
                 using (PowerShell PowerShellInstance = PowerShell.Create())
                 {
-                    PowerShellInstance.AddScript("Get-WmiObject Win32_Product | Sort-Object Name | Select Name,version,Vendor,Description | export-csv C:\\\\ATHService\\Programs.csv");
+                    PowerShellInstance.AddScript("Get-WmiObject -Class Win32_Product |Sort-Object Name | select IdentifyingNumber,Name,Vendor,Version,Caption,Description | export-csv C:\\\\ATHService\\Programs.csv");
                     PowerShellInstance.AddScript("Get-WmiObject -Class Win32_QuickFixEngineering | select Description,HotFixID,InstalledOn |export-csv C:\\\\ATHService\\Hotfixes.csv");
                     PowerShellInstance.AddScript("get-process | Sort-Object CPU -desc | select ProcessName,Id | export-csv C:\\\\ATHService\\Processes.csv");
                     PowerShellInstance.Invoke();
@@ -130,7 +130,7 @@ namespace mongotest
 
                         Proces Proc = new Proces()
                         {
-                            ProcesId = values[1],
+                            ProcesId = Int32.Parse(values[1]),
                             ProcesName=values[0]
                         };
                         Processes.Add(Proc);
