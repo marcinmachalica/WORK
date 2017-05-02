@@ -3,6 +3,6 @@
     public class Proces
     {
         public string ProcesName { get; set; }
-        public int ProcesId { get; set; }
+        public string ProcesId { get; set; }
     }
 }

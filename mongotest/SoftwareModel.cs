@@ -36,10 +36,12 @@ namespace mongotest
 
                         Soft Prog = new Soft()
                         {
-                            Name = values[0],
-                            Version = values[1],
-                            Vendor = values[2],
-                            Description = values[3]
+                            IdentyfyingNumber=values[0],
+                            Name = values[1],
+                            Version = values[2],
+                            Vendor = values[3],
+                            Description = values[4],
+                            Caption = values [5]
                         };
                         Programs.Add(Prog);
                     }
@@ -58,7 +60,7 @@ namespace mongotest
 
                         Proces Proc = new Proces()
                         {
-                            ProcesId = Int32.Parse(values[1]),
+                            ProcesId = values[1],
                             ProcesName = values[0]
                         };
                         Processes.Add(Proc);
@@ -130,7 +132,7 @@ namespace mongotest
 
                         Proces Proc = new Proces()
                         {
-                            ProcesId = Int32.Parse(values[1]),
+                            ProcesId = values[1],
                             ProcesName=values[0]
                         };
                         Processes.Add(Proc);

@@ -305,7 +305,6 @@ namespace mongotest
                         {
                             if (sensor.Value != null)
                             {
-
                                 _gpu.GPUCoreTemp = sensor.Value.ToString();
                             }
                         }
