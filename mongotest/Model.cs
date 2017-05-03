@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Management;
+using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -28,7 +30,7 @@ namespace mongotest
                 tw.Close();
                 var model = new Model()
                 {
-                Hardware = new HardwareModel(),
+                    Hardware = new HardwareModel(),
                     Software = new SoftwareModel()
                 };
                 model.ReplaceDocument(model, conf._idconf);
@@ -56,6 +58,7 @@ namespace mongotest
 
         }
 
+        
         public void CreateFirst(Model model)
         {
             Config config = new Config()

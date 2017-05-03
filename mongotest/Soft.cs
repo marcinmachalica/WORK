@@ -15,5 +15,6 @@ namespace mongotest
         public string Vendor { get; set; }
         public string Description { get; set; }
         public string Caption { get; set; }
+        public bool Remove { get; set; }
     }
 }

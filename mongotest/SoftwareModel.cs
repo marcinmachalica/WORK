@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,11 +15,14 @@ namespace mongotest
         public List<Proces> Processes { get; set; }
         public List<Hotfix> Hotfixes { get; set; }
 
+        
+
         public SoftwareModel()
         {
             Programs = new List<Soft>();
             Processes = new List<Proces>();
             Hotfixes = new List<Hotfix>();
+
             if (File.Exists("C:\\\\ATHService\\Programs.csv") && File.Exists("C:\\\\ATHService\\Processes.csv") && File.Exists("C:\\\\ATHService\\Hotfixes.csv"))
             {
 
@@ -34,14 +38,22 @@ namespace mongotest
                         var line = reader.ReadLine();
                         var values = line.Split(',');
 
+
+                        for (int i = 0; i < values.Count(); i++)
+                        {
+                            values[i] = values[i].Replace("\\", "").Replace("\"","");
+                        }
+                        
+
                         Soft Prog = new Soft()
                         {
-                            IdentyfyingNumber=values[0],
+                            IdentyfyingNumber = values[0],
                             Name = values[1],
                             Version = values[2],
                             Vendor = values[3],
                             Description = values[4],
-                            Caption = values [5]
+                            Caption = values[5],
+                            Remove = false
                         };
                         Programs.Add(Prog);
                     }
@@ -57,7 +69,10 @@ namespace mongotest
 
                         var line = reader.ReadLine();
                         var values = line.Split(',');
-
+                        for (int i = 0; i < values.Count(); i++)
+                        {
+                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                        }
                         Proces Proc = new Proces()
                         {
                             ProcesId = values[1],
@@ -77,7 +92,10 @@ namespace mongotest
 
                         var line = reader.ReadLine();
                         var values = line.Split(',');
-
+                        for (int i = 0; i < values.Count(); i++)
+                        {
+                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                        }
                         Hotfix Hotfix = new Hotfix()
                         {
                             Description = values[0],
@@ -107,7 +125,10 @@ namespace mongotest
 
                         var line = reader.ReadLine();
                         var values = line.Split(',');
-
+                        for (int i = 0; i < values.Count(); i++)
+                        {
+                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                        }
                         Soft Prog = new Soft()
                         {
                             Name = values[0],
@@ -129,11 +150,14 @@ namespace mongotest
 
                         var line = reader.ReadLine();
                         var values = line.Split(',');
-
+                        for (int i = 0; i < values.Count(); i++)
+                        {
+                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                        }
                         Proces Proc = new Proces()
                         {
                             ProcesId = values[1],
-                            ProcesName=values[0]
+                            ProcesName = values[0]
                         };
                         Processes.Add(Proc);
                     }
@@ -149,7 +173,10 @@ namespace mongotest
 
                         var line = reader.ReadLine();
                         var values = line.Split(',');
-
+                        for (int i = 0; i < values.Count(); i++)
+                        {
+                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                        }
                         Hotfix Hotfix = new Hotfix()
                         {
                             Description = values[0],
