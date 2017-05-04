@@ -15,7 +15,7 @@ namespace mongotest
         public List<Proces> Processes { get; set; }
         public List<Hotfix> Hotfixes { get; set; }
 
-        
+
 
         public SoftwareModel()
         {
@@ -25,167 +25,180 @@ namespace mongotest
 
             if (File.Exists("C:\\\\ATHService\\Programs.csv") && File.Exists("C:\\\\ATHService\\Processes.csv") && File.Exists("C:\\\\ATHService\\Hotfixes.csv"))
             {
-
-
-                using (var fs = File.OpenRead(@"C:\ATHService\Programs.csv"))
-                using (var reader = new StreamReader(fs))
+                try
                 {
-                    var headerline = reader.ReadLine();
-                    headerline = reader.ReadLine();
-                    while (!reader.EndOfStream)
+
+                    using (var fs = File.OpenRead(@"C:\ATHService\Programs.csv"))
+                    using (var reader = new StreamReader(fs))
                     {
-
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-
-
-                        for (int i = 0; i < values.Count(); i++)
+                        var headerline = reader.ReadLine();
+                        headerline = reader.ReadLine();
+                        while (!reader.EndOfStream)
                         {
-                            values[i] = values[i].Replace("\\", "").Replace("\"","");
+
+                            var line = reader.ReadLine();
+                            var values = line.Split(',');
+
+
+                            for (int i = 0; i < values.Count(); i++)
+                            {
+                                values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                            }
+
+
+                            Soft Prog = new Soft()
+                            {
+                                IdentifyingNumber = values[0],
+                                Name = values[1],
+                                Version = values[3],
+                                Vendor = values[2],
+                                Description = values[5],
+                                Caption = values[4],
+                                Remove = false
+                            };
+                            Programs.Add(Prog);
                         }
-                        
+                    }
 
-                        Soft Prog = new Soft()
+                    using (var fs = File.OpenRead(@"C:\ATHService\Processes.csv"))
+                    using (var reader = new StreamReader(fs))
+                    {
+                        var headerline = reader.ReadLine();
+                        headerline = reader.ReadLine();
+                        while (!reader.EndOfStream)
                         {
-                            IdentyfyingNumber = values[0],
-                            Name = values[1],
-                            Version = values[2],
-                            Vendor = values[3],
-                            Description = values[4],
-                            Caption = values[5],
-                            Remove = false
-                        };
-                        Programs.Add(Prog);
+
+                            var line = reader.ReadLine();
+                            var values = line.Split(',');
+                            for (int i = 0; i < values.Count(); i++)
+                            {
+                                values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                            }
+                            Proces Proc = new Proces()
+                            {
+                                ProcesId = values[1],
+                                ProcesName = values[0]
+                            };
+                            Processes.Add(Proc);
+                        }
+                    }
+
+                    using (var fs = File.OpenRead(@"C:\ATHService\Hotfixes.csv"))
+                    using (var reader = new StreamReader(fs))
+                    {
+                        var headerline = reader.ReadLine();
+                        headerline = reader.ReadLine();
+                        while (!reader.EndOfStream)
+                        {
+
+                            var line = reader.ReadLine();
+                            var values = line.Split(',');
+                            for (int i = 0; i < values.Count(); i++)
+                            {
+                                values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                            }
+                            Hotfix Hotfix = new Hotfix()
+                            {
+                                Description = values[0],
+                                HotFixID = values[1],
+                                InstalledOn = values[2]
+                            };
+                            Hotfixes.Add(Hotfix);
+                        }
                     }
                 }
-
-                using (var fs = File.OpenRead(@"C:\ATHService\Processes.csv"))
-                using (var reader = new StreamReader(fs))
-                {
-                    var headerline = reader.ReadLine();
-                    headerline = reader.ReadLine();
-                    while (!reader.EndOfStream)
-                    {
-
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        for (int i = 0; i < values.Count(); i++)
-                        {
-                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
-                        }
-                        Proces Proc = new Proces()
-                        {
-                            ProcesId = values[1],
-                            ProcesName = values[0]
-                        };
-                        Processes.Add(Proc);
-                    }
-                }
-
-                using (var fs = File.OpenRead(@"C:\ATHService\Hotfixes.csv"))
-                using (var reader = new StreamReader(fs))
-                {
-                    var headerline = reader.ReadLine();
-                    headerline = reader.ReadLine();
-                    while (!reader.EndOfStream)
-                    {
-
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        for (int i = 0; i < values.Count(); i++)
-                        {
-                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
-                        }
-                        Hotfix Hotfix = new Hotfix()
-                        {
-                            Description = values[0],
-                            HotFixID = values[1],
-                            InstalledOn = values[2]
-                        };
-                        Hotfixes.Add(Hotfix);
-                    }
-                }
+                catch { }
             }
             else
             {
-                using (PowerShell PowerShellInstance = PowerShell.Create())
+                try
                 {
-                    PowerShellInstance.AddScript("Get-WmiObject -Class Win32_Product |Sort-Object Name | select IdentifyingNumber,Name,Vendor,Version,Caption,Description | export-csv C:\\\\ATHService\\Programs.csv");
-                    PowerShellInstance.AddScript("Get-WmiObject -Class Win32_QuickFixEngineering | select Description,HotFixID,InstalledOn |export-csv C:\\\\ATHService\\Hotfixes.csv");
-                    PowerShellInstance.AddScript("get-process | Sort-Object CPU -desc | select ProcessName,Id | export-csv C:\\\\ATHService\\Processes.csv");
-                    PowerShellInstance.Invoke();
-                }
-                using (var fs = File.OpenRead(@"C:\ATHService\Programs.csv"))
-                using (var reader = new StreamReader(fs))
-                {
-                    var headerline = reader.ReadLine();
-                    headerline = reader.ReadLine();
-                    while (!reader.EndOfStream)
+                    using (PowerShell PowerShellInstance = PowerShell.Create())
                     {
+                        PowerShellInstance.AddScript("Get-WmiObject -Class Win32_Product |Sort-Object Name | select IdentifyingNumber,Name,Vendor,Version,Caption,Description | export-csv C:\\\\ATHService\\Programs.csv");
+                        PowerShellInstance.AddScript("Get-WmiObject -Class Win32_QuickFixEngineering | select Description,HotFixID,InstalledOn |export-csv C:\\\\ATHService\\Hotfixes.csv");
+                        PowerShellInstance.AddScript("get-process | Sort-Object ProcessName | select ProcessName,Id | export-csv C:\\\\ATHService\\Processes.csv");
+                        PowerShellInstance.Invoke();
+                        System.Threading.Thread.Sleep(30000);
+                        
+                    }
+                    
+                    using (var fs = File.OpenRead(@"C:\ATHService\Programs.csv"))
+                    using (var reader = new StreamReader(fs))
+                    {
+                        var headerline = reader.ReadLine();
+                        headerline = reader.ReadLine();
+                        while (!reader.EndOfStream)
+                        {
 
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        for (int i = 0; i < values.Count(); i++)
-                        {
-                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                            var line = reader.ReadLine();
+                            var values = line.Split(',');
+                            for (int i = 0; i < values.Count(); i++)
+                            {
+                                values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                            }
+                            Soft Prog = new Soft()
+                            {
+                                IdentifyingNumber = values[0],
+                                Name = values[1],
+                                Version = values[3],
+                                Vendor = values[2],
+                                Description = values[5],
+                                Caption = values[4],
+                                Remove = false
+                            };
+                            Programs.Add(Prog);
                         }
-                        Soft Prog = new Soft()
+                    }
+
+                    using (var fs = File.OpenRead(@"C:\ATHService\Processes.csv"))
+                    using (var reader = new StreamReader(fs))
+                    {
+                        var headerline = reader.ReadLine();
+                        headerline = reader.ReadLine();
+                        while (!reader.EndOfStream)
                         {
-                            Name = values[0],
-                            Version = values[1],
-                            Vendor = values[2],
-                            Description = values[3]
-                        };
-                        Programs.Add(Prog);
+
+                            var line = reader.ReadLine();
+                            var values = line.Split(',');
+                            for (int i = 0; i < values.Count(); i++)
+                            {
+                                values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                            }
+                            Proces Proc = new Proces()
+                            {
+                                ProcesId = values[1],
+                                ProcesName = values[0]
+                            };
+                            Processes.Add(Proc);
+                        }
+                    }
+
+                    using (var fs = File.OpenRead(@"C:\ATHService\Hotfixes.csv"))
+                    using (var reader = new StreamReader(fs))
+                    {
+                        var headerline = reader.ReadLine();
+                        headerline = reader.ReadLine();
+                        while (!reader.EndOfStream)
+                        {
+
+                            var line = reader.ReadLine();
+                            var values = line.Split(',');
+                            for (int i = 0; i < values.Count(); i++)
+                            {
+                                values[i] = values[i].Replace("\\", "").Replace("\"", "");
+                            }
+                            Hotfix Hotfix = new Hotfix()
+                            {
+                                Description = values[0],
+                                HotFixID = values[1],
+                                InstalledOn = values[2]
+                            };
+                            Hotfixes.Add(Hotfix);
+                        }
                     }
                 }
-
-                using (var fs = File.OpenRead(@"C:\ATHService\Processes.csv"))
-                using (var reader = new StreamReader(fs))
-                {
-                    var headerline = reader.ReadLine();
-                    headerline = reader.ReadLine();
-                    while (!reader.EndOfStream)
-                    {
-
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        for (int i = 0; i < values.Count(); i++)
-                        {
-                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
-                        }
-                        Proces Proc = new Proces()
-                        {
-                            ProcesId = values[1],
-                            ProcesName = values[0]
-                        };
-                        Processes.Add(Proc);
-                    }
-                }
-
-                using (var fs = File.OpenRead(@"C:\ATHService\Hotfixes.csv"))
-                using (var reader = new StreamReader(fs))
-                {
-                    var headerline = reader.ReadLine();
-                    headerline = reader.ReadLine();
-                    while (!reader.EndOfStream)
-                    {
-
-                        var line = reader.ReadLine();
-                        var values = line.Split(',');
-                        for (int i = 0; i < values.Count(); i++)
-                        {
-                            values[i] = values[i].Replace("\\", "").Replace("\"", "");
-                        }
-                        Hotfix Hotfix = new Hotfix()
-                        {
-                            Description = values[0],
-                            HotFixID = values[1],
-                            InstalledOn = values[2]
-                        };
-                        Hotfixes.Add(Hotfix);
-                    }
-                }
+                catch { }
             }
         }
     }

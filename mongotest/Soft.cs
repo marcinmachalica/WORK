@@ -9,7 +9,7 @@ namespace mongotest
 {
     public class Soft
     {
-        public string IdentyfyingNumber { get; set; }
+        public string IdentifyingNumber { get; set; }
         public string Name { get; set; }
         public string Version { get; set; }
         public string Vendor { get; set; }

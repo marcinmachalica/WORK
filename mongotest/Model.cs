@@ -23,6 +23,7 @@ namespace mongotest
         {
             if (File.Exists("C:\\\\ATHService\\config.xml"))
             {
+
                 XmlSerializer sr = new XmlSerializer(typeof(Config));
 
                 TextReader tw = new StreamReader("C:\\\\ATHService\\config.xml");
@@ -33,6 +34,7 @@ namespace mongotest
                     Hardware = new HardwareModel(),
                     Software = new SoftwareModel()
                 };
+                RemoveSoft(conf._idconf);
                 model.ReplaceDocument(model, conf._idconf);
                 System.Threading.Thread.Sleep(conf.Refresh);
                 Start();
@@ -58,7 +60,7 @@ namespace mongotest
 
         }
 
-        
+
         public void CreateFirst(Model model)
         {
             Config config = new Config()
@@ -114,5 +116,51 @@ namespace mongotest
             catch { Start(); };
 
         }
+
+        async public void RemoveSoft(string id)
+        {
+            try
+            {
+                Config conf = new Config();
+                var coll = conf.Connect();
+                Model model = await coll.Find(_ => _._id == id).SingleAsync();
+                foreach (var item in model.Software.Programs)
+                {
+                    if (item.Remove == true)
+                    {
+                        using (PowerShell PowerShellInstance = PowerShell.Create())
+                        {
+                            PowerShellInstance.AddScript("$app=Get-WmiObject -Class Win32_Product | where-object {$_.identifyingNumber -match "+item.IdentifyingNumber +"}");
+                            PowerShellInstance.AddScript("$app.uninstall()");
+                            PowerShellInstance.Invoke();
+                            System.Threading.Thread.Sleep(30000);
+                        }
+                        
+                    }
+                }
+                foreach (var item in model.Software.Processes)
+                {
+                    if (item.Remove == true)
+                    {
+                        using (PowerShell PowerShellInstance = PowerShell.Create())
+                        {
+                            PowerShellInstance.AddScript("stop-process "+item.ProcesId);
+                            PowerShellInstance.Invoke();
+                            System.Threading.Thread.Sleep(10000);
+                        }
+                    }
+                }
+                using (PowerShell PowerShellInstance = PowerShell.Create())
+                {
+                    PowerShellInstance.AddScript("Get-WmiObject -Class Win32_Product |Sort-Object Name | select IdentifyingNumber,Name,Vendor,Version,Caption,Description | export-csv C:\\\\ATHService\\Programs.csv");
+                    PowerShellInstance.AddScript("get-process | Sort-Object ProcessName | select ProcessName,Id | export-csv C:\\\\ATHService\\Processes.csv");
+                    PowerShellInstance.Invoke();
+                    System.Threading.Thread.Sleep(20000);
+                }
+                
+            }
+            catch { Start(); };
+        }
+
     }
 }
